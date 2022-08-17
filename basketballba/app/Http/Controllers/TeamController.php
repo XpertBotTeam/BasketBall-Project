@@ -14,7 +14,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return Team::select('name','fullName','Description','country','city')->get();
+        return Team::select('id','name','fullName','Description','country','city','img','ownership','headcoach','generalmanager','championships')->get();
     }
 
     public function store(Request $request)
@@ -25,6 +25,11 @@ class TeamController extends Controller
             'Description'=>'required',
             'country'=>'required',
             'city'=>'required',
+            'img'=>'required',
+            'ownership'=>'required',
+            'headcoach'=>'required',
+            'generalmanager'=>'required',
+            'championships'=>'required',
         ]);
         Team::create($request->post());
         return response()->json([
@@ -49,6 +54,11 @@ class TeamController extends Controller
             'Description'=>'required',
             'country'=>'required',
             'city'=>'required',
+            'img'=>'required',
+            'ownership'=>'required',
+            'headcoach'=>'required',
+            'generalmanager'=>'required',
+            'championships'=>'required',
         ]);
         $team->fill($request->post())->update();
         return response()->json([

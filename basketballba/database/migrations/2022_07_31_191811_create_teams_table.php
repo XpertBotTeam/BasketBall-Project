@@ -20,6 +20,11 @@ return new class extends Migration
             $table->string('Description');
             $table->string('country');
             $table->string('city');
+            $table->string('img');
+            $table->string('ownership');
+            $table->string('headcoach');
+            $table->string('generalmanager');
+            $table->string('championships');
             $table->timestamps();
         });
     }

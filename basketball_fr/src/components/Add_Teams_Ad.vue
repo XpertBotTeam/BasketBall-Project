@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <Header_Ad />
+    {{ setTitle("Add Teams") }}
     <h1 id="head">Add Teams</h1>
     <form>
       <div id="name" class="form-group">
@@ -28,6 +29,31 @@
         <input type="name" class="form-control" placeholder="Enter team City.." v-model="city">
       </div>
       <br />
+      <div id="city" class="form-group">
+        <label>Logo Link</label>
+        <input type="name" class="form-control" placeholder="Enter Team Logo.." v-model="img">
+      </div>
+      <br />
+      <div id="city" class="form-group">
+        <label>Ownership</label>
+        <input type="name" class="form-control" placeholder="Enter team ownership.." v-model="ownership">
+      </div>
+      <br />
+      <div id="city" class="form-group">
+        <label>Head Coach</label>
+        <input type="name" class="form-control" placeholder="Enter team headcoach.." v-model="headcoach">
+      </div>
+      <br />
+      <div id="city" class="form-group">
+        <label>General Manager</label>
+        <input type="name" class="form-control" placeholder="Enter team generalmanager.." v-model="generalmanager">
+      </div>
+      <br />
+      <div id="city" class="form-group">
+        <label>Championships</label>
+        <input type="name" class="form-control" placeholder="Enter team championships.." v-model="championships">
+      </div>
+      <br />
       <button type="submit" class="btn btn-primary" @click="saveTeam()">Submit</button>
   </form>
   </div>
@@ -48,7 +74,12 @@ export default {
       fullname: '',
       description: '',
       country: '',
-      city: ''
+      city: '',
+      img: '',
+      ownership: '',
+      headcoach: '',
+      generalmanager: '',
+      championships: ''
     }
   },
   methods: {
@@ -60,7 +91,12 @@ export default {
             fullName: this.fullname,
             Description: this.description,
             country: this.country,
-            city: this.city
+            city: this.city,
+            img: this.img,
+            ownership: this.ownership,
+            headcoach: this.headcoach,
+            generalmanager: this.generalmanager,
+            championships: this.championships,
             }
             );
             this.name = '';
@@ -68,16 +104,24 @@ export default {
             this.description = '';
             this.country = '';
             this.city = '';
+            this.img = '';
+            this.ownership = '';
+            this.headcoach = '';
+            this.generalmanager = '';
+            this.championships = '';
         }catch(e){
             console.log(e);
         }
     },
+    setTitle(name){
+            document.title = name;
+        }
 }
 }
 </script>
 
 
-<style>
+<style scoped>
 
 #head{
   background-color: black;
