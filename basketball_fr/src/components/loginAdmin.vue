@@ -14,6 +14,9 @@
                 <button @click="closePopup2()" type="button">Ok</button>
         </div>
         <div class="login">
+            <div class="logoDiv">
+                <img src="../assets/admin-logo.png" />
+            </div>
             <div class="input-icons">
                 <div class="email">
                     <span><img src='../assets/email2.png'></span>
@@ -134,13 +137,24 @@ html{
 
 .login{
     width: 400px;
-    height: 400px;
+    height: 100%;
     background-color: #e2e8eb;
     border: 2px solid #e2e8eb;
     box-shadow: 0px 0px 225px rgba(255, 255, 255, 80%);
     border-radius: 15px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+}
+
+.logoDiv{
+    width: 100%;
+    position: relative;
+    top: 45px;
+}
+.login img{
+    width: 150px;
+    height: 150px;
 }
 
 .label{
@@ -159,7 +173,7 @@ html{
 
 .input-icons {
     width: 80%;
-    margin: 50px;
+    margin: 50px 40px;
 }
 
 
@@ -220,6 +234,7 @@ outline: none;
     padding: 10px 20px;
     font-weight: bold;
     transition: 0.7s ease;
+    margin-bottom: 15px;
 }
 
 .logD button:hover{

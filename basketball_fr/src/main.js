@@ -6,8 +6,13 @@ import VueAxios from 'vue-axios';
 import Auth from '../src/components/Auth';
 import "bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
+import VueYoutube from 'vue-youtube'
+
+Vue.use(VueYoutube)
 
 Vue.config.productionTip = false
+
+
 
 Vue.prototype.auth = Auth;
 Vue.use(VueAxios, axios);

@@ -24,7 +24,7 @@
                     <input class="input-field" ref="myInput" v-model="user.password"  placeholder="Enter your password..." type="password">
                 </div>
                 <div class="chechD">
-                <input class="checkbox" type="checkbox" @click="showPassword()"> Show Password
+                <input id="showPassword" class="checkbox" type="checkbox" @click="showPassword()"> <label class="showLabel" for="showPassword">Show Password</label>
                 </div>
                 <div class="logD">
                     <button @click="login()">{{ loginF }}</button>
@@ -357,6 +357,10 @@ outline: none;
 
 .sorry{
     color: red;
+}
+
+.showLabel{
+    font-weight: 500;
 }
 
 

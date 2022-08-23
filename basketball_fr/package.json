@@ -13,7 +13,9 @@
     "core-js": "^3.8.3",
     "vue": "^2.7.8",
     "vue-axios": "^3.4.1",
-    "vue-router": "^3.5.1"
+    "vue-router": "^3.5.1",
+    "vue-youtube": "^1.4.0",
+    "vue2-google-maps": "^0.10.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

@@ -28,7 +28,7 @@
                     <input class="input-field" ref="myInput"  placeholder="Enter your password..." type="password" v-model="form.password">
                 </div>
                 <div class="chechD">
-                <input class="checkbox" type="checkbox" @click="showPassword()"> Show Password
+                 <input id="showPassword" class="checkbox" type="checkbox" @click="showPassword()"> <label class="showLabel" for="showPassword">Show Password</label>
                 </div>
                 <div class="regD">
                     <button type="submit" class="btn btn-primary" @click="saveUser()">Register</button>
@@ -344,5 +344,8 @@ outline: none;
         transform: translate(-50%, -50%) scale(1);
 }
 
+.showLabel{
+    font-weight: 500;
+}
 
 </style>

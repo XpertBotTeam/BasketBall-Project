@@ -18,10 +18,16 @@ import EditProfile from '../components/EditProfile.vue'
 import AdminRegister from '../components/AdminRegister.vue'
 import chooseLogin from '../components/chooseLogin.vue'
 import loginAdmin from '../components/loginAdmin.vue'
+import TeamClips from '../components/TeamClips.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/team-clips',
+    name: 'teamclips',
+    component: TeamClips
+  },
   {
     path: '/login-admin',
     name: 'loginAdmin',

@@ -10,12 +10,14 @@
         <header>
         <div class="lo">
                 <a href="/"><img class="logo" src="../assets/Logo_Us_BP.png"></a>
+                <h2><span class="org">BASKET</span><span class="bla">BALL</span></h2>
         </div>
         <div class="nav1">
             <nav class="navigation">
-                <router-link class="home" to="/">Home</router-link>
-                <router-link class="news" :to="{name: 'news'}" :style="session_token? style1 : style2">News</router-link>
-                <router-link class="teams" :to="{name: 'teams'}" :style="session_token ? style1 : style2">Teams</router-link>
+                <router-link class="home" to="/">Home</router-link> |
+                <router-link class="news" :to="{name: 'news'}" :style="session_token ? style1 : style2">News</router-link> <label v-if="session_token">|</label>
+                <router-link class="teams" :to="{name: 'teams'}" :style="session_token ? style1 : style2">Teams</router-link> <label v-if="session_token">|</label>
+                <router-link class="teams" :to="{name: 'teamclips'}" :style="session_token ? style1 : style2">Team Clips</router-link> <label v-if="session_token">|</label>
                 <router-link class="about" :to="{name: 'about'}">About us</router-link>
             </nav>
         </div>
@@ -26,13 +28,13 @@
                         <img class="dropmenu" src="../assets/dropmenu.png">
                         </button>
                         <div class="dropdown-content">
-                            <router-link to="/">Profile</router-link>
+                            <router-link :to="{name: 'editprofile', params:{id: info.id}}">Profile</router-link>
                             <a href="javascript:void(0)" @click="logout()">logout</a>
                         </div>
                     </div>
                 </div>
                 <div class="logio" v-else>
-                    <a class="login" href="/login">login</a>
+                    <a class="login" href="/choose-login">login</a>
                 </div>
     </header>
     <section class="head">
@@ -156,31 +158,26 @@ a{
 header{
     background-color: #FCB506;
     width: 100%;
-    height: 140px;
+    height: 90px;
     position: fixed;
     z-index: 3;
     display: flex;
     justify-content: space-between;
-    flex-direction: row;
     padding: 10px 100px;
-    border: 2px solid #FCB506;
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
 }
 .logo{
-    width: 150px;
-    height: 130px;
+    width: 80px;
+    height: 70px;
 }
 
 
 a.login{
     color: white;
     background-color: black;
-    border: 2px solid black;
     border-radius: 10px;
-    padding: 10px 25px;
+    padding: 8px 20px;
     text-decoration: none;
-    font-size: 1.2em;
+    font-size: 20px;
     font-weight: 500;
     transition: 0.5s ease;
 }
@@ -197,9 +194,16 @@ a.login:hover {
     height: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.lo h2{
+    color: white;
+    font-weight: 500;
+    font-size: 25px;
 }
 .nav1{
-    width: 60%;
+    width: 80%;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -207,42 +211,43 @@ a.login:hover {
 }
 
 .nav1 nav a{
-    color: #601cfc;
+    color: white;
     text-decoration: none;
-    margin: 0 30px;
-    font-size: 1.4em;
+    margin: 0 20px;
+    font-size: 20px;
     font-weight: 500;
+    transition: 0.5s ease;
 }
-
 .nav1 nav a.home:hover{
-        color: #7d48f8;
+    color: #001f3f;
 }
 .nav1 nav a.news:hover{
-    color: #7d48f8;
+    color: #001f3f;
 }
 .nav1 nav a.teams:hover{
-    color: #7d48f8;
+    color: #001f3f;
 }
 .nav1 nav a.about:hover{
-    color: #7d48f8;
+    color: #001f3f;
 }
 
 .logio{
-    width: 10%;
+    width: 3%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 
+
 .dropdown .dropbtn {
-    font-size: 21px;
+    font-size: 20px;
     border: none;
     outline: none;
     color: #0B55BE;
-    padding: 14px 16px;
+    padding: 5px 16px;
     background-color: #f9f9f9;
-    border-radius: 10px;
+    border-radius: 5px;
     font-family: inherit;
     margin: 0;
     display: flex;
@@ -270,11 +275,13 @@ a.login:hover {
     text-decoration: none;
     display: block;
     text-align: left;
+    
 }
 
 .dropdown-content a:hover {
     background-color: #ddd;
 }
+
 
 .dropdown:hover .dropdown-content {
     display: block;
@@ -286,6 +293,15 @@ a.login:hover {
     margin: 10px 5px;
 }
 
+.org{
+    color: #E16A32;
+    font-weight: 650;
+}
+
+.bla{
+    color: black;
+    font-weight: 650;
+}
 
 .head{
     width: 100%;

@@ -1,6 +1,6 @@
 <template>
     <div>
-        {{ setTitle("About") }}
+        {{ setTitle("Team Clips") }}
         <header>
             <div class="lo">
                     <a href="/"><img class="logo" src="../assets/Logo_Us_BP.png"></a>
@@ -11,7 +11,7 @@
                     <router-link class="home" to="/">Home</router-link> |
                     <router-link class="news" :to="{name: 'news'}" :style="session_token ? style1 : style2">News</router-link> <label v-if="session_token">|</label>
                     <router-link class="teams" :to="{name: 'teams'}" :style="session_token ? style1 : style2">Teams</router-link> <label v-if="session_token">|</label>
-                    <router-link class="teams" :to="{name: 'teamclips'}" :style="session_token ? style1 : style2">Team Clips</router-link> <label v-if="session_token">|</label>
+                    <router-link class="teamclips" :to="{name: 'teamclips'}" :style="session_token ? style1 : style2">Team Clips</router-link> <label v-if="session_token">|</label>
                     <router-link class="about" :to="{name: 'about'}">About us</router-link>
                 </nav>
             </div>
@@ -31,32 +31,41 @@
                         <a class="login" href="/choose-login">login</a>
                     </div>
         </header>
-        <br />
-        <div class="ConIm">
-            <div class="ConDiv">
-                <table>
-                    <tr>
-                        <td><h1>About us</h1></td>
-                    </tr>
-                    <tr>
-                        <td><p>This Project about "BasketBall Website (News & Teams)"
-we have in this website [Home Page & News Page & Teams Page], and include of course Login page, if you want to create new account you can press on regsiter to create one, you can update you profile information any time,
- and the MAIN Topic of this website is to show the nba news and basketball  teams information.</p></td>
-                    </tr>
-                </table>
-            </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div class="selector">
+            <label for="teams">Choose a Team:</label>
+
+            <select name="teams" id="teams" v-model="selected" @change="chooseVideo()">
+            <option v-for="team in teams" :key="team.id" :value="{name: team.fullName}" >{{ team.fullName }}</option>
+            </select>
         </div>
+        <div class="cover1" v-if="videoId">
+            <youtube class="youtube" :video-id="videoId" ref="youtube" @playing="playing"></youtube>
+        </div>
+        <div class="cover2" v-else>
+            <h2>No Video</h2>
+        </div>
+        <footer class="footer">
+            <p class="footer-title">Copyright @ <span>Omar Ghieh</span></p>
+        </footer>
     </div>
 </template>
 
+
 <script>
 import axios from 'axios';
+import Auth from './Auth.js';
 
 
-export default{
-    name: 'AboutPage',
+export default {
+    name: 'TeamClips',
     data(){
         return {
+            teams: [],
             info: [],
             user_id: '',
             session_token: window.sessionStorage.getItem("token"),
@@ -67,15 +76,22 @@ export default{
                 display: 'none',
             },
             user_name: '',
+            selected: [],
+            videoId: '',
         }
     },
     created(){
         this.getInfo();
+        this.getTeams();
     },
     methods: {
+        setTitle(name){
+                document.title = name;
+        },
         logout() {
                 this.axios.post(`http://127.0.0.1:8000/api/user/logout?token=${this.session_token}`)
                 .then(() => {
+                    Auth.logout();
                     sessionStorage.clear();
                     this.$router.push('/login');
                 })
@@ -95,16 +111,86 @@ export default{
                 }
             }
     },
-        setTitle(name){
-            document.title = name;
+        async getTeams(){
+                try{
+                    const response = await axios.get("http://127.0.0.1:8000/api/teams");
+                        this.teams = response.data;
+                }catch(e){
+                    console.log(e);
+                }
+    },
+    playVideo() {
+        this.player.playVideo()
+    },
+    playing() {
+        console.log('we are watching!!!')
+    },
+    chooseVideo(){
+        if(this.selected.name == "Atlanta Hawks"){
+            this.videoId = 'lR4vlXpvp1k';
+        }
+        else if(this.selected.name == 'Boston Celtics'){
+            this.videoId = '1GI3xiBQkOc';
+        }
+        else if(this.selected.name == 'Brooklyn Nets'){
+            this.videoId = 'R73peHIhGHE';
+        }
+        else if(this.selected.name == 'Charlotte Hornets'){
+            this.videoId = '1-4Hx1Uzk2M';
+        }
+        else if(this.selected.name == 'Chicago Bulls'){
+            this.videoId = 'qA2CMX8Ihow';
+        }
+        else if(this.selected.name == 'Cleveland Cavaliers'){
+            this.videoId = '-siIwqu8Ti4';
+        }
+        else if(this.selected.name == 'Dallas Mavericks'){
+            this.videoId = 'MEs5owtx_qQ';
+        }
+        else if(this.selected.name == 'Toronto Raptors'){
+            this.videoId = '7wIwo91Kfas';
+        }
+        else if(this.selected.name == 'London Lightning'){
+            this.videoId = 'Q3t71YjW4wQ';
+        }
+        else if(this.selected.name == 'KW Titans'){
+            this.videoId = 'JPsEO_F-v5Q';
+        }
+        else if(this.selected.name == 'BC Khimki'){
+            this.videoId = 'LMIp-9ZL9vw';
+        }
+        else if(this.selected.name == 'Al-Hilal'){
+            this.videoId = 'Ki0wLdHGvyo';
+        }
+        else if(this.selected.name == 'Limoges CSP'){
+            this.videoId = 'ETyYyWPqIi4';
+        }
+        else if(this.selected.name == 'Antibes Sharks'){
+            this.videoId = '6WVC5xmZLy0';
+        }
+        else if(this.selected.name == 'Al Riyadi Club Beirut'){
+            this.videoId = 'cgs8HrNIdEA';
+        }
+        else if(this.selected.name == 'Champville SC'){
+            this.videoId = 'BWd4GeMT5dQ';
+        }
+        else if(this.selected.name == 'Beirut Club'){
+            this.videoId = 'PSZjiiMWE2A';
+        }else{
+            this.videoId = '';
         }
     }
+    },
+    computed: {
+    player () {
+        return this.$refs.youtube.player
+    },
+    },
 }
 </script>
 
 
 <style scoped>
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 html{
     scroll-behavior: smooth;
@@ -183,7 +269,7 @@ a.login:hover {
     font-weight: 500;
     transition: 0.5s ease;
 }
-.nav1 nav a.about{
+.nav1 nav a.teamclips{
     color: #001f3f;
 }
 .nav1 nav a.news:hover{
@@ -195,6 +281,9 @@ a.login:hover {
 .nav1 nav a.home:hover{
     color: #001f3f;
 }
+.nav1 nav a.about:hover{
+    color: #001f3f;
+}
 
 .logio{
     width: 3%;
@@ -202,6 +291,7 @@ a.login:hover {
     justify-content: center;
     align-items: center;
 }
+
 
 
 .dropdown .dropbtn {
@@ -267,41 +357,65 @@ a.login:hover {
     font-weight: 650;
 }
 
-.ConIm{
+
+.selector{
     width: 100%;
-    height: 700px;
-    margin-top: 100px;
-    background: url(../assets/cover_nba.jpg) no-repeat;
-    background-size: contain;
-    background-position: center center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding: 10px 0px;
 }
 
-.ConDiv{
-    float: left;
-    padding: 110px;
+.selector label{
+    color: black;
+    font-size: 25px;
+    font-weight: 500;
+    margin-right: 10px;
+    margin-top: 10px;
 }
 
-.ConDiv h1{
+.selector select{
+    width: 30%;
+    height: 35px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.cover1{
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 70px;
+}
+.cover2{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer{
     background-color: black;
-    color: white;
-    border-radius: 15px;
-    padding: 30px;
-    margin: 10px;
-    font-size: 50px;
-}
-.ConDiv p{
-    width: 470px;
-    text-align: center;
-    font-weight: bold;
-}
-table{
-    width: 40%;
-    border-radius: 20px;
+    color: #fff;
+    padding: 1em;
+    display: flex;
+    justify-content: center;
 }
 
-table td{
-        padding: 10px;
-        height: 230px;
+.footer-title{
+    font-size: 1.2em;
+    font-weight: 600;
+    padding: 7px 0 0 0;
+}
+
+.footer-title span{
+    color: #FCB506;
 }
 
 

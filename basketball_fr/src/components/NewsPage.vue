@@ -2,34 +2,36 @@
 <div>
         {{ setTitle("News") }}
         <header>
-        <div class="lo">
-                <a href="/"><img class="logo" src="../assets/Logo_Us_BP.png"></a>
-        </div>
-        <div class="nav1">
-            <nav class="navigation">
-                <router-link class="home" to="/">Home</router-link>
-                <router-link class="news" :to="{name: 'news'}" :style="session_token ? style1 : style2">News</router-link>
-                <router-link class="teams" :to="{name: 'teams'}" :style="session_token ? style1 : style2">Teams</router-link>
-                <router-link class="about" :to="{name: 'about'}">About us</router-link>
-            </nav>
-        </div>
-                <div class="logio" v-if="session_token">
-                    <div class="dropdown">
-                        <button class="dropbtn">
-                        {{ user_name }}
-                        <img class="dropmenu" src="../assets/dropmenu.png">
-                        </button>
-                        <div class="dropdown-content">
-                            <router-link :to="{name: 'editprofile', params:{id: info.id}}">Profile</router-link>
-                            <a href="javascript:void(0)" @click="logout()">logout</a>
+            <div class="lo">
+                    <a href="/"><img class="logo" src="../assets/Logo_Us_BP.png"></a>
+                    <h2><span class="org">BASKET</span><span class="bla">BALL</span></h2>
+            </div>
+            <div class="nav1">
+                <nav class="navigation">
+                    <router-link class="home" to="/">Home</router-link> |
+                    <router-link class="news" :to="{name: 'news'}" :style="session_token ? style1 : style2">News</router-link> <label v-if="session_token">|</label>
+                    <router-link class="teams" :to="{name: 'teams'}" :style="session_token ? style1 : style2">Teams</router-link> <label v-if="session_token">|</label>
+                    <router-link class="teams" :to="{name: 'teamclips'}" :style="session_token ? style1 : style2">Team Clips</router-link> <label v-if="session_token">|</label>
+                    <router-link class="about" :to="{name: 'about'}">About us</router-link>
+                </nav>
+            </div>
+                    <div class="logio" v-if="session_token">
+                        <div class="dropdown">
+                            <button class="dropbtn">
+                            {{ user_name }}
+                            <img class="dropmenu" src="../assets/dropmenu.png">
+                            </button>
+                            <div class="dropdown-content">
+                                <router-link :to="{name: 'editprofile', params:{id: info.id}}">Profile</router-link>
+                                <a href="javascript:void(0)" @click="logout()">logout</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="logio" v-else>
-                    <a class="login" href="/login">login</a>
-                </div>
+                    <div class="logio" v-else>
+                        <a class="login" href="/choose-login">login</a>
+                    </div>
         </header>
-        <div class="newsC">
+        <div class="newsC" v-if="nws != ''">
             <h2>Latest</h2>
             <hr>
             <div class="content" v-for="nw in nws" :key="nw.id">
@@ -41,9 +43,21 @@
                 </div>
             </div>
         </div>
-        <footer class="footer">
+        <div class="loading" v-else>
+            <div class="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <footer class="footer" v-if="nws != ''">
         <p class="footer-title">Copyright @ <span>Omar Ghieh</span></p>
-    </footer>
+        </footer>
     </div>
 </template>
 
@@ -76,7 +90,7 @@ export default{
                 this.axios.post(`http://127.0.0.1:8000/api/user/logout?token=${this.session_token}`)
                 .then(() => {
                     sessionStorage.clear();
-                    this.$router.push('/');
+                    this.$router.push('/login');
                 })
                 .catch((error) => {
                     console.log(error);
@@ -97,7 +111,9 @@ export default{
         async getNews(){
         try{
             const response = await axios.get("http://127.0.0.1:8000/api/news");
-            this.nws = response.data;
+            setTimeout(() => {
+                this.nws = response.data;
+            }, 1500);
         }catch(e){
             console.log(e);
         }
@@ -128,30 +144,27 @@ html{
 header{
     background-color: #FCB506;
     width: 100%;
-    height: 140px;
+    height: 90px;
     position: fixed;
     z-index: 3;
     display: flex;
     justify-content: space-between;
     padding: 10px 100px;
-    border: 2px solid #FCB506;
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 .logo{
-    width: 150px;
-    height: 130px;
+    width: 80px;
+    height: 70px;
 }
 
 
 a.login{
     color: white;
     background-color: black;
-    border: 2px solid black;
     border-radius: 10px;
-    padding: 10px 25px;
+    padding: 8px 20px;
     text-decoration: none;
-    font-size: 1.2em;
+    font-size: 20px;
     font-weight: 500;
     transition: 0.5s ease;
 }
@@ -168,9 +181,16 @@ a.login:hover {
     height: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.lo h2{
+    color: white;
+    font-weight: 500;
+    font-size: 25px;
 }
 .nav1{
-    width: 60%;
+    width: 80%;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -178,42 +198,43 @@ a.login:hover {
 }
 
 .nav1 nav a{
-    color: #601cfc;
+    color: white;
     text-decoration: none;
-    margin: 0 30px;
-    font-size: 1.4em;
+    margin: 0 20px;
+    font-size: 20px;
     font-weight: 500;
+    transition: 0.5s ease;
 }
 .nav1 nav a.news{
-    border-bottom: 2px solid black;
-    border-radius: 8px;
+    color: #001f3f;
 }
-.nav1 nav a.news:hover{
-    color: #7d48f8;
+.nav1 nav a.home:hover{
+    color: #001f3f;
 }
 .nav1 nav a.teams:hover{
-    color: #7d48f8;
+    color: #001f3f;
 }
 .nav1 nav a.about:hover{
-    color: #7d48f8;
+    color: #001f3f;
 }
 
 .logio{
-    width: 10%;
+    width: 3%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 
+
 .dropdown .dropbtn {
-    font-size: 21px;
+    font-size: 20px;
     border: none;
     outline: none;
     color: #0B55BE;
-    padding: 14px 16px;
+    padding: 5px 16px;
     background-color: #f9f9f9;
-    border-radius: 10px;
+    border-radius: 5px;
     font-family: inherit;
     margin: 0;
     display: flex;
@@ -241,11 +262,13 @@ a.login:hover {
     text-decoration: none;
     display: block;
     text-align: left;
+    
 }
 
 .dropdown-content a:hover {
     background-color: #ddd;
 }
+
 
 .dropdown:hover .dropdown-content {
     display: block;
@@ -255,6 +278,16 @@ a.login:hover {
     width: 15px;
     height: 15px;
     margin: 10px 5px;
+}
+
+.org{
+    color: #E16A32;
+    font-weight: 650;
+}
+
+.bla{
+    color: black;
+    font-weight: 650;
 }
 
 
@@ -319,5 +352,103 @@ a.login:hover {
     color: #FCB506;
 }
 
+
+
+
+
+.lds-roller {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    z-index: 1999;
+}
+.lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: black;
+    margin: -4px 0 0 -4px;
+}
+.lds-roller div:nth-child(1) {
+    animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+    top: 63px;
+    left: 63px;
+}
+.lds-roller div:nth-child(2) {
+    animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+    top: 68px;
+    left: 56px;
+}
+.lds-roller div:nth-child(3) {
+    animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+    top: 71px;
+    left: 48px;
+}
+.lds-roller div:nth-child(4) {
+    animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+    top: 72px;
+    left: 40px;
+}
+.lds-roller div:nth-child(5) {
+    animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+    top: 71px;
+    left: 32px;
+}
+.lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+    top: 68px;
+    left: 24px;
+}
+.lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+    top: 63px;
+    left: 17px;
+}
+.lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+    top: 56px;
+    left: 12px;
+}
+@keyframes lds-roller {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading{
+    width: 100%;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
 
 </style>
